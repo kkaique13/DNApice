@@ -1,5 +1,6 @@
 # DNApice
 Projeto multidisciplinar que envolve Programação Orientada a Objetos, Biologia e Artes.
+
 # Integrantes
 - Kaíque dos Santos Reis
 - Keren Hapuque Ferreira Bezerra
@@ -9,5 +10,6 @@ Projeto multidisciplinar que envolve Programação Orientada a Objetos, Biologia
 - Rayca Pires Gomes da Cruz
 - Hanna Leticia Martins Melgaço
 - Lavínia Barbosa Donato
-#Espécie escolhida
+
+# Espécie escolhida
 Jiboia Arco-Íris
