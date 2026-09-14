@@ -12,5 +12,3 @@ Projeto multidisciplinar que envolve Programação Orientada a Objetos, Biologia
 - Lavínia Barbosa Donato
 - Mateus Caroba Ribeiro Costa
 
-# Espécie escolhida
-Jiboia Arco-Íris
