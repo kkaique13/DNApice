@@ -10,6 +10,5 @@ class Pulmao:
         else:
             print("Oxigenação está maximizada!")
             
-
     def mostrarStatus(self) -> None:
         print(f"Oxigenação: {self.oxigenacao}")

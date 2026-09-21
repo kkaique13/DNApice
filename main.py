@@ -1,13 +1,22 @@
 from coracao import Coracao
 from pulmao import Pulmao
 from organismo import Organismo
+from bioma import Bioma
 
-avatar = Organismo()
-avatar.mostrarStatus()
+if __name__ == "__main__":
+    ambiente = Bioma("Caatinga", 27.7)
+    ambiente.mostrarStatus()
 
-avatar.correr()
-avatar.ficarNoSol()
-avatar.mostrarStatus()
+    avatar = Organismo("Kaíque", ambiente)
+    avatar.mostrarStatus()
 
-avatar.beberAgua()
-avatar.mostrarStatus()
+    avatar.correr()
+    avatar.ficarNoSol()
+    avatar.ficarNoSol()
+    avatar.ficarNoSol()
+    avatar.ficarNoSol()
+    avatar.ficarNoSol()
+    avatar.mostrarStatus()
+
+    avatar.beberAgua()
+    avatar.mostrarStatus()
