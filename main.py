@@ -1,5 +1,3 @@
-from coracao import Coracao
-from pulmao import Pulmao
 from organismo import Organismo
 from bioma import Bioma
 
@@ -12,9 +10,15 @@ if __name__ == "__main__":
 
     avatar.correr()
     avatar.ficarNoSol()
+    avatar.mostrarStatus()
     avatar.ficarNoSol()
+    avatar.mostrarStatus()
     avatar.ficarNoSol()
+    avatar.mostrarStatus()
     avatar.ficarNoSol()
+    avatar.mostrarStatus()
+    avatar.ficarNoSol()
+    avatar.mostrarStatus()
     avatar.ficarNoSol()
     avatar.mostrarStatus()
 

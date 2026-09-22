@@ -11,4 +11,4 @@ class Pulmao:
             print("Oxigenação está maximizada!")
             
     def mostrarStatus(self) -> None:
-        print(f"Oxigenação: {self.oxigenacao}")
+        print(f"Oxigenação: {self.oxigenacao}\n")
