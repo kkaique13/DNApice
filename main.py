@@ -1,6 +1,7 @@
 from organismo import Organismo
 from bioma import Bioma
 from jogo import Game
+import os
 
 if __name__ == "__main__":
     organismos = []
@@ -14,10 +15,11 @@ if __name__ == "__main__":
         es = int(input("Escolha sua opção: \n"))
         if es == 1:
             if len(organismos) < 1:
-                es = int(input("Nenhum organismo para selecionar! Crie um organismo para jogar!\n"))
+                es = print("Nenhum organismo para selecionar! Crie um organismo para jogar!\n")
+                break
 
             for avatar in organismos:
-                print(f"\n{avatar.nome}\n")
+                print(f"{avatar.nome}\n")
 
             av = input("Escolha o organismo pro experimento: \n")
             encontrado = False
@@ -27,8 +29,9 @@ if __name__ == "__main__":
                     encontrado = True
                     Game(avatar)
                     break
-                if encontrado == False:
-                    print("Organismo inválido!")
+
+            if encontrado == False:
+                print("Organismo inválido!")
         
         if es == 2:
             nome = input("\nDigite o nome do organismo: \n")
@@ -38,7 +41,7 @@ if __name__ == "__main__":
 
         if es == 3:
             for avatar in organismos:
-                print(f"{avatar.nome}")
+                print(f"\n{avatar.nome}")
 
         if es == 4:
             print("Obrigado por jogar!\n")
