@@ -19,7 +19,10 @@ class Organismo:
     def correr(self) -> None:
         print("O organismo começou a correr!\n")
         self.coracao.acelerar()
+        print(f"O batimento cardíaco do organismo {self.nome} aumentou!\n")
         self.pulmao.respirarMaisRapido()
+        print(f"O organismo {self.nome} está respirando mais rápido!\n")
+        self.hidratacao -= 25
     
     def ficarNoSol(self) -> None:
         print("O organismo está exposto ao calor!")
