@@ -1,14 +1,16 @@
 from organismo import Organismo
 from bioma import Bioma
-from jogo import Game
+from jogo import game
 import os
 import time
 if __name__ == "__main__":
+    #Variáveis e listas
     organismos = []
     vitimas = []
     ambiente = Bioma("Caatinga", 30.0)
-    
+
     while True:
+        #Menu
         print("\nCAATINGA: NÃO SE DESIDRATE!")
         print("1- Jogar")
         print("2- Criar organismo")
@@ -18,9 +20,12 @@ if __name__ == "__main__":
         es = int(input("Escolha sua opção: \n"))
 
         match es:
+
+            #Jogar
             case 1:
                 if len(organismos) < 1:
                     print("Nenhum organismo para selecionar! Crie um organismo para jogar!\n")
+                    continue
 
                 for avatar in organismos:
                     print(f"{avatar.nome}")
@@ -37,7 +42,8 @@ if __name__ == "__main__":
 
                 if encontrado == False:
                     print("Organismo inválido!")
-            
+
+            #Criar organismo
             case 2:
                 nome = input("\nDigite o nome do organismo: \n")
                 morto = False
@@ -52,6 +58,7 @@ if __name__ == "__main__":
                     os.system('cls')
                     print(f"\nOrganismo {avatar.nome} criado!")
 
+            #Ver vivos
             case 3:
                 if len(organismos) == 0:
                     os.system('cls')
@@ -61,6 +68,7 @@ if __name__ == "__main__":
                     for avatar in organismos:
                         print(f"\n{avatar.nome}")
 
+            #Ver mortos
             case 4:
                 if len(vitimas) == 0:
                     os.system('cls')
@@ -70,6 +78,7 @@ if __name__ == "__main__":
                     for vitima in vitimas:
                         print(f"\n{vitima}")
 
+            #Sair
             case 5:
                 print("Obrigado por jogar!\n")
                 break
