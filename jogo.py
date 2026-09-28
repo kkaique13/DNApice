@@ -69,11 +69,15 @@ def game(organismo:Organismo, organismos:list, vitimas:list) -> None:
             #Beber água
             case 3:
                 os.system('cls')
-                if organismo.cantil > 0:
-                    organismo.beberAgua()
-                else:
+                if organismo.hidratacao >= 100:
                     os.system('cls')
-                    print("O cantil está com muita pouca água! Encha-o para conseguir beber água")
+                    print("Hidratação está máximizada!\n")
+                else:
+                    if organismo.cantil > 0:
+                        organismo.beberAgua()
+                    else:
+                        os.system('cls')
+                        print("O cantil está com muita pouca água! Encha-o para conseguir beber água")
 
             #Ficar no sol
             case 4:
@@ -87,12 +91,16 @@ def game(organismo:Organismo, organismos:list, vitimas:list) -> None:
 
             #Encher o cantil
             case 6:
-                if distanciaPercorrida % 25 == 0:
+                if organismo.cantil >= 100:
                     os.system('cls')
-                    organismo.encherCantil()
+                    print("O cantil está cheio!")
                 else:
-                    os.system('cls')
-                    print("Não há nenhuma fonte de água por perto, faça o organismo correr um pouco mais!")
+                    if distanciaPercorrida % 25 == 0:
+                        os.system('cls')
+                        organismo.encherCantil()
+                    else:
+                        os.system('cls')
+                        print("Não há nenhuma fonte de água por perto, faça o organismo correr um pouco mais!")
 
             #Desistir
             case 7:
