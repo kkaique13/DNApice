@@ -33,7 +33,7 @@ if __name__ == "__main__":
                 av = input("Escolha o organismo pro experimento: \n")
                 encontrado = False
                 for avatar in organismos:
-                    if avatar.nome == av:
+                    if avatar.nome.lower() == av.lower():
                         encontrado = True
                         print("O jogo vai começar! Boa sorte!")
                         time.sleep(1)
