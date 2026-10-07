@@ -16,7 +16,7 @@ def game(organismo:Organismo, organismos:list, vitimas:list) -> None:
         if distanciaPercorrida < chegada:
             print(f"Km faltando: {chegada - distanciaPercorrida}")
 
-        elif distanciaPercorrida == chegada:
+        elif distanciaPercorrida >= chegada:
             os.system('cls')
             print("Km faltando: 0")
             print("Parabéns! Você ganhou!")
@@ -44,75 +44,79 @@ def game(organismo:Organismo, organismos:list, vitimas:list) -> None:
         print("5- Ficar na sombra")
         print("6- Encher cantil")
         print("7- Desistir")
-        es = int(input("\nEscolha uma das opções: \n"))
+        try:
+            es = int(input("\nEscolha uma das opções: \n"))
 
-        match es:
-            
-            #Correr
-            case 1:
-                os.system('cls')
-                if organismo.energia - 20 <= 0:
-                    print("O organismo está com a energia muito baixa! Descanse um pouco!")
-                else:
-                    organismo.correr()
-                    distanciaPercorrida += 10
-
-            #Andar
-            case 2:
-                os.system('cls')
-                if organismo.energia - 10 <= 0:
-                    print("O organismo está com a energia muito baixa! Descanse um pouco!")
-                else:
-                    organismo.andar()
-                    distanciaPercorrida += 5
-
-            #Beber água
-            case 3:
-                os.system('cls')
-                if organismo.hidratacao >= 100:
+            match es:
+                
+                #Correr
+                case 1:
                     os.system('cls')
-                    print("Hidratação está máximizada!\n")
-                else:
-                    if organismo.cantil > 0:
-                        organismo.beberAgua()
+                    if organismo.energia - 20 <= 0:
+                        print("O organismo está com a energia muito baixa! Descanse um pouco!")
                     else:
-                        os.system('cls')
-                        print("O cantil está com muita pouca água! Encha-o para conseguir beber água")
+                        organismo.correr()
+                        distanciaPercorrida += 10
 
-            #Ficar no sol
-            case 4:
-                os.system('cls')
-                organismo.ficarNoSol()
-
-            #Ficar na sombra
-            case 5:
-                os.system('cls')
-                organismo.ficarNaSombra()
-
-            #Encher o cantil
-            case 6:
-                if organismo.cantil >= 100:
+                #Andar
+                case 2:
                     os.system('cls')
-                    print("O cantil está cheio!")
-                else:
-                    if distanciaPercorrida % 25 == 0:
-                        os.system('cls')
-                        organismo.encherCantil()
+                    if organismo.energia - 10 <= 0:
+                        print("O organismo está com a energia muito baixa! Descanse um pouco!")
                     else:
-                        os.system('cls')
-                        print("Não há nenhuma fonte de água por perto, faça o organismo correr um pouco mais!")
+                        organismo.andar()
+                        distanciaPercorrida += 5
 
-            #Desistir
-            case 7:
-                vida = input("Tem certeza? (s/n)\n")
-                if vida == 's':
+                #Beber água
+                case 3:
                     os.system('cls')
-                    vitimas.append(organismo.nome)
-                    organismos.remove(organismo)
-                    print("O organismo não aguentou a pressão e desistiu de continuar...")
-                    time.sleep(1.5)
-                    break
-                else:
-                    print("Não desista ainda! Tenha determinação!")
-                    time.sleep(1)
+                    if organismo.hidratacao >= 100:
+                        os.system('cls')
+                        print("Hidratação está máximizada!\n")
+                    else:
+                        if organismo.cantil > 0:
+                            organismo.beberAgua()
+                        else:
+                            os.system('cls')
+                            print("O cantil está com muita pouca água! Encha-o para conseguir beber água")
+
+                #Ficar no sol
+                case 4:
                     os.system('cls')
+                    organismo.ficarNoSol()
+
+                #Ficar na sombra
+                case 5:
+                    os.system('cls')
+                    organismo.ficarNaSombra()
+
+                #Encher o cantil
+                case 6:
+                    if organismo.cantil >= 100:
+                        os.system('cls')
+                        print("O cantil está cheio!")
+                    else:
+                        if distanciaPercorrida % 25 == 0:
+                            os.system('cls')
+                            organismo.encherCantil()
+                        else:
+                            os.system('cls')
+                            print("Não há nenhuma fonte de água por perto, faça o organismo correr um pouco mais!")
+
+                #Desistir
+                case 7:
+                    vida = input("Tem certeza? (s/n)\n")
+                    if vida == 's':
+                        os.system('cls')
+                        vitimas.append(organismo.nome)
+                        organismos.remove(organismo)
+                        print("O organismo não aguentou a pressão e desistiu de continuar...")
+                        time.sleep(1.5)
+                        break
+                    else:
+                        print("Não desista ainda! Tenha determinação!")
+                        time.sleep(1)
+                        os.system('cls')
+        except ValueError:
+            os.system('cls')
+            print("Opção inválida!")
