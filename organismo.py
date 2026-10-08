@@ -40,7 +40,7 @@ class Organismo:
     def ficarNoSol(self) -> None:
         print("O organismo está exposto ao calor!")
 
-        if self.tempoSol >= 5 and self.hidratacao < 50:
+        if self.tempoSol >= 5 or self.hidratacao < 50:
             print("Atenção! O organismo ficou muito tempo no sol, o suor não é suficiente! Beba água!\n")
             self.temperatura += 0.5
             self.hidratacao -= 15 * self.taxaDesidratacao
@@ -54,10 +54,14 @@ class Organismo:
             print("O organismo suou pra manter a temperatura estável!\n")
 
     def ficarNaSombra(self) -> None:
+        if self.energia + 10 >= 100:
+            self.energia = 100
+            self.temperatura -= 0.5
+        else:
+            self.energia += 10
+            self.temperatura -= 0.5
         print("O organismo está descansando na sombra!")
-        self.temperatura -= 0.5
-        self.energia += 10
-
+        
     def encherCantil(self) -> None:
         quantidadeEnchida = randint(10, 50)
         print(f"O organismo encheu o cantil com {quantidadeEnchida} de água!")
@@ -65,11 +69,13 @@ class Organismo:
 
     def beberAgua(self) -> None:
         print("O organismo bebeu água!\n")
+        if self.cantil <= 0 or self.cantil - 25 <= 0:
+            print("O cantil está vazio ou com pouca água! O organismo não consegue beber água!")
+        else:
+            self.cantil -= 25
+            self.hidratacao += 20
+            self.temperatura -= 1
 
-        self.cantil -= 25
-        self.hidratacao += 20
-        self.temperatura -= 1
-    
     def mostrarStatus(self) -> None:
         print("==== STATUS DO ORGANISMO ====")
         print(f"Nome: {self.nome}")

@@ -35,6 +35,12 @@ def game(organismo:Organismo, organismos:list, vitimas:list) -> None:
             organismos.remove(organismo)
             time.sleep(1.5)
             break
+
+        #Vendo se o organismo está com a energia muito baixa
+        if organismo.energia <= 40:
+            print("O organismo está com a energia muito baixa! Descanse um pouco!")
+            print("A taxa de desidratação do organismo aumentou!\n")
+            organismo.taxaDesidratacao += 0.2
         
         #Menu
         print("1- Fazer o organismo correr")
