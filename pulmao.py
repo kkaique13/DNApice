@@ -5,7 +5,7 @@ class Pulmao:
         self.oxigenacao = 90 # %
     
     def respirarMaisRapido(self) -> None:
-        if self.oxigenacao < 100:
+        if self.oxigenacao <= 100:
             self.oxigenacao += 1
         else:
             print("Oxigenação está maximizada!")

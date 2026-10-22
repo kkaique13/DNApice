@@ -82,6 +82,10 @@ if __name__ == "__main__":
                 case 5:
                     print("Obrigado por jogar!\n")
                     break
+                
+                case _:
+                    print("Opção inválida!")
+                    
         except ValueError:
             os.system('cls')
             print("Opção inválida!")

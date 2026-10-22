@@ -21,10 +21,10 @@ class Organismo:
         self.temperatura -= 0.5
 
     def correr(self) -> None:
-        print("O organismo começou a correr!\n")
+        print("O organismo começou a correr!")
         self.coracao.acelerar()
 
-        print(f"O batimento cardíaco do organismo {self.nome} aumentou!\n")
+        print(f"O batimento cardíaco do organismo {self.nome} aumentou!")
         self.pulmao.respirarMaisRapido()
 
         print(f"O organismo {self.nome} está respirando mais rápido!\n")
@@ -51,30 +51,38 @@ class Organismo:
             self.temperatura += 0.5
             self.taxaDesidratacao -= 0.1
             self.suar()
-            print("O organismo suou pra manter a temperatura estável!\n")
+            print(f"O organismo {self.nome} suou pra manter a temperatura estável!\n")
 
     def ficarNaSombra(self) -> None:
         if self.energia + 10 >= 100:
             self.energia = 100
             self.temperatura -= 0.5
+            self.coracao.desacelerar()
         else:
             self.energia += 10
             self.temperatura -= 0.5
-        print("O organismo está descansando na sombra!")
+            self.coracao.desacelerar()
+        
+        print(f"A frequência cardíaca do organismo {self.nome} diminuiu!")
+        print(f"A energia do organismo {self.nome} aumentou!")
+        print(f"O organismo {self.nome} está descansando na sombra!\n")
         
     def encherCantil(self) -> None:
         quantidadeEnchida = randint(10, 50)
-        print(f"O organismo encheu o cantil com {quantidadeEnchida} de água!")
-        self.cantil += quantidadeEnchida
+        print(f"O organismo {self.nome} encheu o cantil com {quantidadeEnchida} de água!\n")
+        self.cantil = min(100, self.cantil + quantidadeEnchida)
 
     def beberAgua(self) -> None:
-        print("O organismo bebeu água!\n")
-        if self.cantil <= 0 or self.cantil - 25 <= 0:
-            print("O cantil está vazio ou com pouca água! O organismo não consegue beber água!")
+        if self.cantil <= 0 or self.cantil < 25:
+            print(f"O cantil está vazio ou com pouca água! O organismo {self.nome} não consegue beber água!\n")
         else:
             self.cantil -= 25
-            self.hidratacao += 20
+            self.hidratacao = min(100, self.hidratacao + 20)
             self.temperatura -= 1
+            self.coracao.desacelerar()
+            print(f"O organismo {self.nome} bebeu água!")
+            print(f"A temperatura do organismo {self.nome} diminuiu!")
+            print(f"A frequência cardíaca do organismo {self.nome} diminuiu!\n")
 
     def mostrarStatus(self) -> None:
         print("==== STATUS DO ORGANISMO ====")
@@ -84,6 +92,6 @@ class Organismo:
         print(f"Quantidade de água no cantil: {self.cantil}")
         print(f"Temperatura: {self.temperatura}ºC")
         print(f"Energia atual: {self.energia}")
-        print(f"Taxa de desidratação: {self.taxaDesidratacao * 100}%")
+        print(f"Taxa de desidratação: {self.taxaDesidratacao * 100}%\n")
         self.coracao.mostrarStatus()
         self.pulmao.mostrarStatus()

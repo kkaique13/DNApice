@@ -9,7 +9,7 @@ def game(organismo:Organismo, organismos:list, vitimas:list) -> None:
     while True:
         #Mostra os status do organismo
         organismo.mostrarStatus()
-
+        
         #Conferindo a distância percorrida e a que falta
         print(f"Corra {chegada}Km para ganhar o jogo!")
         print(f"Km percorridos: {distanciaPercorrida}")
@@ -30,7 +30,7 @@ def game(organismo:Organismo, organismos:list, vitimas:list) -> None:
         #Vendo se o organismo está muito desidratado
         if organismo.hidratacao <= 0:
             os.system('cls')
-            print("O organismo ficou muito desidratado e morreu...")
+            print(f"O organismo {organismo.nome} ficou muito desidratado e morreu...")
             vitimas.append(organismo.nome)
             organismos.remove(organismo)
             time.sleep(1.5)
@@ -38,10 +38,37 @@ def game(organismo:Organismo, organismos:list, vitimas:list) -> None:
 
         #Vendo se o organismo está com a energia muito baixa
         if organismo.energia <= 40:
-            print("O organismo está com a energia muito baixa! Descanse um pouco!")
-            print("A taxa de desidratação do organismo aumentou!\n")
+            print(f"O organismo {organismo.nome} está com a energia muito baixa! Descanse um pouco!")
+            print(f"A taxa de desidratação do organismo {organismo.nome} aumentou!\n")
             organismo.taxaDesidratacao += 0.2
         
+        #Vendo se o organismo tá muito quente ou frio
+        if organismo.temperatura > 42:
+            os.system('cls')
+            print(f"O organismo {organismo.nome} ficou muito quente e morreu...")
+            vitimas.append(organismo.nome)
+            organismos.remove(organismo)
+            time.sleep(1.5)
+            break
+        
+        elif organismo.temperatura > 40:
+            print(f"O organismo {organismo.nome} está com insolação!")
+            print("Fique na sombra o máximo possível pra diminuir a sua temperatura!\n")
+            organismo.taxaDesidratacao += 0.3
+            
+        elif organismo.temperatura < 30:
+            os.system('cls')
+            print(f"O organismo {organismo.nome} ficou muito frio e morreu...")
+            vitimas.append(organismo.nome)
+            organismos.remove(organismo)
+            time.sleep(1.5)
+            break
+        
+        elif organismo.temperatura < 34:
+            print(f"O organismo {organismo.nome} está com hipotermia!")
+            print("Fique na sol o máximo possível pra aumentar a sua temperatura!\n")
+            organismo.taxaDesidratacao += 0.3
+            
         #Menu
         print("1- Fazer o organismo correr")
         print("2- Fazer o organismo andar")
@@ -59,7 +86,7 @@ def game(organismo:Organismo, organismos:list, vitimas:list) -> None:
                 case 1:
                     os.system('cls')
                     if organismo.energia - 20 <= 0:
-                        print("O organismo está com a energia muito baixa! Descanse um pouco!")
+                        print(f"O organismo {organismo.nome} está com a energia muito baixa! Descanse um pouco!\n")
                     else:
                         organismo.correr()
                         distanciaPercorrida += 10
@@ -68,7 +95,7 @@ def game(organismo:Organismo, organismos:list, vitimas:list) -> None:
                 case 2:
                     os.system('cls')
                     if organismo.energia - 10 <= 0:
-                        print("O organismo está com a energia muito baixa! Descanse um pouco!")
+                        print(f"O organismo {organismo.nome} está com a energia muito baixa! Descanse um pouco!\n")
                     else:
                         organismo.andar()
                         distanciaPercorrida += 5
@@ -80,11 +107,7 @@ def game(organismo:Organismo, organismos:list, vitimas:list) -> None:
                         os.system('cls')
                         print("Hidratação está máximizada!\n")
                     else:
-                        if organismo.cantil > 0:
-                            organismo.beberAgua()
-                        else:
-                            os.system('cls')
-                            print("O cantil está com muita pouca água! Encha-o para conseguir beber água")
+                        organismo.beberAgua()
 
                 #Ficar no sol
                 case 4:
@@ -112,7 +135,7 @@ def game(organismo:Organismo, organismos:list, vitimas:list) -> None:
                 #Desistir
                 case 7:
                     vida = input("Tem certeza? (s/n)\n")
-                    if vida == 's':
+                    if vida.lower() == 's':
                         os.system('cls')
                         vitimas.append(organismo.nome)
                         organismos.remove(organismo)
@@ -123,6 +146,10 @@ def game(organismo:Organismo, organismos:list, vitimas:list) -> None:
                         print("Não desista ainda! Tenha determinação!")
                         time.sleep(1)
                         os.system('cls')
+                
+                case _:
+                    os.system('cls')
+                    print("Opção inválida!")
         except ValueError:
             os.system('cls')
             print("Opção inválida!")

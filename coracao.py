@@ -9,4 +9,4 @@ class Coracao:
         self.frequenciaCardiaca -= 10
 
     def mostrarStatus(self) -> None:
-        print(f"Frequência cardíaca: {self.frequenciaCardiaca}")
+        print(f"Frequência cardíaca: {self.frequenciaCardiaca}\n")
