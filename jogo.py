@@ -1,75 +1,70 @@
-from organismo import Organismo
-import os
 import time
+from organismo import (Organismo, DISTANCIA_CORRER, DISTANCIA_ANDAR, LIMITE_ENERGIA_BAIXA,)
+from utils import limpar
 
-def game(organismo:Organismo, organismos:list, vitimas:list) -> None:
-    os.system('cls')
+CHEGADA = 100        # Km
+INTERVALO_AGUA = 25  # Km entre fontes de água
+
+def _morrer(organismo: Organismo, organismos: list, vitimas: list, motivo: str) -> None:
+    limpar()
+    print(f"O organismo {organismo.nome} {motivo}")
+    vitimas.append(organismo.nome)
+    organismos.remove(organismo)
+    time.sleep(1.5)
+
+def _mostrarAlertas(organismo: Organismo) -> None:
+    if organismo.energia <= LIMITE_ENERGIA_BAIXA:
+        print(f"O organismo {organismo.nome} está com a energia muito baixa! Descanse um pouco!")
+        print("Enquanto estiver cansado, a taxa de desidratação aumenta a cada ação!\n")
+    if 40 < organismo.temperatura <= 42:
+        print(f"O organismo {organismo.nome} está com insolação!")
+        print("Fique na sombra o máximo possível pra diminuir a sua temperatura!\n")
+    elif 30 <= organismo.temperatura < 34:
+        print(f"O organismo {organismo.nome} está com hipotermia!")
+        print("Fique no sol o máximo possível pra aumentar a sua temperatura!\n")
+
+def game(organismo: Organismo, organismos: list, vitimas: list, vencedores: list) -> None:
+    limpar()
     distanciaPercorrida = 0
-    chegada = 100
-    while True:
-        #Mostra os status do organismo
-        organismo.mostrarStatus()
-        
-        #Conferindo a distância percorrida e a que falta
-        print(f"Corra {chegada}Km para ganhar o jogo!")
-        print(f"Km percorridos: {distanciaPercorrida}")
-        if distanciaPercorrida < chegada:
-            print(f"Km faltando: {chegada - distanciaPercorrida}")
 
-        elif distanciaPercorrida >= chegada:
-            os.system('cls')
+    while True:
+        # Status
+        organismo.mostrarStatus()
+
+        # Distância
+        print(f"Percorra {CHEGADA}Km (andando ou correndo) para ganhar o jogo!")
+        print(f"Fontes de água a cada {INTERVALO_AGUA}Km")
+        print(f"Km percorridos: {distanciaPercorrida}")
+
+        if distanciaPercorrida >= CHEGADA:
+            limpar()
             print("Km faltando: 0")
             print("Parabéns! Você ganhou!")
             print("Voltando ao menu principal...")
+            organismos.remove(organismo)
+            vencedores.append(organismo.nome)
             time.sleep(1.5)
             break
+        
+        print(f"Km faltando: {CHEGADA - distanciaPercorrida}\n")
 
-        else:
-            print(f"Km faltando: {chegada - distanciaPercorrida}")
-
-        #Vendo se o organismo está muito desidratado
+        # Mortes
         if organismo.hidratacao <= 0:
-            os.system('cls')
-            print(f"O organismo {organismo.nome} ficou muito desidratado e morreu...")
-            vitimas.append(organismo.nome)
-            organismos.remove(organismo)
-            time.sleep(1.5)
+            _morrer(organismo, organismos, vitimas, "ficou muito desidratado e morreu...")
             break
 
-        #Vendo se o organismo está com a energia muito baixa
-        if organismo.energia <= 40:
-            print(f"O organismo {organismo.nome} está com a energia muito baixa! Descanse um pouco!")
-            print(f"A taxa de desidratação do organismo {organismo.nome} aumentou!\n")
-            organismo.taxaDesidratacao += 0.2
-        
-        #Vendo se o organismo tá muito quente ou frio
         if organismo.temperatura > 42:
-            os.system('cls')
-            print(f"O organismo {organismo.nome} ficou muito quente e morreu...")
-            vitimas.append(organismo.nome)
-            organismos.remove(organismo)
-            time.sleep(1.5)
+            _morrer(organismo, organismos, vitimas, "ficou muito quente e morreu...")
             break
-        
-        elif organismo.temperatura > 40:
-            print(f"O organismo {organismo.nome} está com insolação!")
-            print("Fique na sombra o máximo possível pra diminuir a sua temperatura!\n")
-            organismo.taxaDesidratacao += 0.3
-            
-        elif organismo.temperatura < 30:
-            os.system('cls')
-            print(f"O organismo {organismo.nome} ficou muito frio e morreu...")
-            vitimas.append(organismo.nome)
-            organismos.remove(organismo)
-            time.sleep(1.5)
+
+        if organismo.temperatura < 30:
+            _morrer(organismo, organismos, vitimas, "ficou muito frio e morreu...")
             break
-        
-        elif organismo.temperatura < 34:
-            print(f"O organismo {organismo.nome} está com hipotermia!")
-            print("Fique na sol o máximo possível pra aumentar a sua temperatura!\n")
-            organismo.taxaDesidratacao += 0.3
-            
-        #Menu
+
+        # Alertas (não alteram nada, só avisam)
+        _mostrarAlertas(organismo)
+
+        # Menu
         print("1- Fazer o organismo correr")
         print("2- Fazer o organismo andar")
         print("3- Beber água do cantil")
@@ -77,79 +72,87 @@ def game(organismo:Organismo, organismos:list, vitimas:list) -> None:
         print("5- Ficar na sombra")
         print("6- Encher cantil")
         print("7- Desistir")
+
         try:
             es = int(input("\nEscolha uma das opções: \n"))
-
-            match es:
-                
-                #Correr
-                case 1:
-                    os.system('cls')
-                    if organismo.energia - 20 <= 0:
-                        print(f"O organismo {organismo.nome} está com a energia muito baixa! Descanse um pouco!\n")
-                    else:
-                        organismo.correr()
-                        distanciaPercorrida += 10
-
-                #Andar
-                case 2:
-                    os.system('cls')
-                    if organismo.energia - 10 <= 0:
-                        print(f"O organismo {organismo.nome} está com a energia muito baixa! Descanse um pouco!\n")
-                    else:
-                        organismo.andar()
-                        distanciaPercorrida += 5
-
-                #Beber água
-                case 3:
-                    os.system('cls')
-                    if organismo.hidratacao >= 100:
-                        os.system('cls')
-                        print("Hidratação está máximizada!\n")
-                    else:
-                        organismo.beberAgua()
-
-                #Ficar no sol
-                case 4:
-                    os.system('cls')
-                    organismo.ficarNoSol()
-
-                #Ficar na sombra
-                case 5:
-                    os.system('cls')
-                    organismo.ficarNaSombra()
-
-                #Encher o cantil
-                case 6:
-                    if organismo.cantil >= 100:
-                        os.system('cls')
-                        print("O cantil está cheio!")
-                    else:
-                        if distanciaPercorrida % 25 == 0:
-                            os.system('cls')
-                            organismo.encherCantil()
-                        else:
-                            os.system('cls')
-                            print("Não há nenhuma fonte de água por perto, faça o organismo correr um pouco mais!")
-
-                #Desistir
-                case 7:
-                    vida = input("Tem certeza? (s/n)\n")
-                    if vida.lower() == 's':
-                        os.system('cls')
-                        vitimas.append(organismo.nome)
-                        organismos.remove(organismo)
-                        print("O organismo não aguentou a pressão e desistiu de continuar...")
-                        time.sleep(1.5)
-                        break
-                    else:
-                        print("Não desista ainda! Tenha determinação!")
-                        time.sleep(1)
-                        os.system('cls')
-                
-                case _:
-                    os.system('cls')
-                    print("Opção inválida!")
         except ValueError:
-            os.system('cls')
+            limpar()
             print("Opção inválida!")
+            continue
+
+        acaoValida = False  # só ações válidas gastam turno e geram penalidades
+
+        match es:
+            # Correr
+            case 1:
+                limpar()
+                if not organismo.podeCorrer():
+                    print(f"O organismo {organismo.nome} está com a energia muito baixa! Descanse um pouco!\n")
+                else:
+                    organismo.correr()
+                    distanciaPercorrida += DISTANCIA_CORRER
+                    acaoValida = True
+
+            # Andar
+            case 2:
+                limpar()
+                if not organismo.podeAndar():
+                    print(f"O organismo {organismo.nome} está com a energia muito baixa! Descanse um pouco!\n")
+                else:
+                    organismo.andar()
+                    distanciaPercorrida += DISTANCIA_ANDAR
+                    acaoValida = True
+
+            # Beber água
+            case 3:
+                limpar()
+                if organismo.hidratacao >= 100:
+                    print("Hidratação está maximizada!\n")
+                else:
+                    acaoValida = organismo.beberAgua()
+
+            # Ficar no sol
+            case 4:
+                limpar()
+                organismo.ficarNoSol()
+                acaoValida = True
+
+            # Ficar na sombra
+            case 5:
+                limpar()
+                organismo.ficarNaSombra()
+                acaoValida = True
+
+            # Encher o cantil
+            case 6:
+                limpar()
+                if organismo.cantil >= 100:
+                    print("O cantil está cheio!\n")
+                elif distanciaPercorrida % INTERVALO_AGUA == 0:
+                    organismo.encherCantil()
+                    acaoValida = True
+                else:
+                    proxima = (distanciaPercorrida // INTERVALO_AGUA + 1) * INTERVALO_AGUA
+                    print("Não há nenhuma fonte de água por perto!")
+                    print(f"A próxima fonte fica no Km {proxima}.\n")
+
+            # Desistir
+            case 7:
+                vida = input("Tem certeza? (s/n)\n")
+                if vida.strip().lower() == 's':
+                    limpar()
+                    vitimas.append(organismo.nome)
+                    organismos.remove(organismo)
+                    print("O organismo não aguentou a pressão e desistiu de continuar...")
+                    time.sleep(1.5)
+                    break
+                print("Não desista ainda! Tenha determinação!")
+                time.sleep(1)
+                limpar()
+
+            case _:
+                limpar()
+                print("Opção inválida!")
+
+        if acaoValida:
+            organismo.aplicarPenalidades()
