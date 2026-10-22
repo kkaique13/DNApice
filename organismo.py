@@ -41,7 +41,7 @@ class Organismo:
         print("O organismo está exposto ao calor!")
 
         if self.tempoSol >= 5 or self.hidratacao < 50:
-            print("Atenção! O organismo ficou muito tempo no sol, o suor não é suficiente! Beba água!\n")
+            print("Atenção! O organismo ficou muito tempo no sol, o suor não é suficiente! Fique na sombra!\n")
             self.temperatura += 0.5
             self.hidratacao -= 15 * self.taxaDesidratacao
 
@@ -58,10 +58,12 @@ class Organismo:
             self.energia = 100
             self.temperatura -= 0.5
             self.coracao.desacelerar()
+            self.tempoSol -= 1
         else:
             self.energia += 10
             self.temperatura -= 0.5
             self.coracao.desacelerar()
+            self.tempoSol -= 1
         
         print(f"A frequência cardíaca do organismo {self.nome} diminuiu!")
         print(f"A energia do organismo {self.nome} aumentou!")
